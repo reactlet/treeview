@@ -42,7 +42,7 @@ var Treeview = React.createClass({
     processTreedataItem: function(item, level) {
         item.level = level;
         item.uid = this.generateUid();
-        item.isSelected = false;
+        item.selectStatus = 'n'; // select status can be all | partial | none
         item.isExpanded = (level < this.state.expandLevel) || false;
         item.hasChildren = (item.children && item.children.length > 0) || false;
         if (level > 0) {
@@ -112,7 +112,7 @@ var Treeview = React.createClass({
                 level: item.level,
                 hasChildren: item.hasChildren,
                 isExpanded: item.isExpanded,
-                isSelected: item.isSelected,
+                selectStatus: item.selectStatus,
                 boxClass: item.boxClass
             };
             nodes.push(currentNode);
@@ -152,7 +152,17 @@ var Treeview = React.createClass({
             case 'icon':
                 break;
             case 'select':
-                treedataItem.isSelected = !treedataItem.isSelected;
+                switch(treedataItem.selectStatus) {
+                case 'a':
+                    treedataItem.selectStatus = 'n';
+                    break;
+                case 'p':
+                    treedataItem.selectStatus = 'a';
+                    break;
+                case 'n':
+                    treedataItem.selectStatus = 'a';
+                    break;
+                }
                 break;
         }
         this.state.nodes = this.getNodesFromTreeItem(this.state.treedataObject);
@@ -185,10 +195,10 @@ var Treeview = React.createClass({
         var treenodes = [];
         for (var i = 0; i < this.state.nodes.length; i++) {
             var node = this.state.nodes[i];
-            // need to include node properties tied with UI change, for example: isSelected
+            // need to include node properties tied with UI change, for example: isExpanded
             var nodeKey = 'treenode-' + node.uid;
-            nodeKey += '-' + (node.isSelected ? 'S' : 'NS');
-            nodeKey += '-' + (node.isExpanded ? 'E' : 'NE');
+            nodeKey += '-' + node.selectStatus;
+            nodeKey += '-' + (node.isExpanded ? 'e' : 'n');
             treenodes.push(<TreeviewNode data={ node } key={ nodeKey } />);
         }
         return (
@@ -216,7 +226,7 @@ var TreeviewNode = React.createClass({
             { name:'display', type:'string', required:false, defaultValue:'', note:'text display' },
             { name:'hasChildren', type:'boolean', required:false, defaultValue:false, note:'has children flag' },
             { name:'isExpanded', type:'boolean', required:false, defaultValue:false, note:'is expanded flag' },
-            { name:'isSelected', type:'boolean', required:false, defaultValue:false, note:'is selected flag' },
+            { name:'selectStatus', type:'boolean', required:false, defaultValue:'n', note:'selecte state all/partial/none' },
             { name:'item', type:'object', required:false, defaultValue:'', note:'original data item' }
         ];
         return attributes;
@@ -256,10 +266,22 @@ var TreeviewNode = React.createClass({
         cells.push(<TreeviewCell data={ expandCellData } key='treeview-expand-cell' />);
         
         // add select cell
+        var iconClass = '';
+        switch(this.state.selectStatus) {
+        case 'a':
+            iconClass = 'fa fa-check-square-o';
+            break;
+        case 'p':
+            iconClass = 'fa fa-delicious';
+            break;
+        case 'n':
+            iconClass = 'fa fa-square-o';
+            break;
+        }
         var selectCellData = {
             uid: this.state.uid + '-select',
             type: 'select',
-            iconClass: this.state.isSelected ? 'fa fa-check-square-o' : 'fa fa-square-o'
+            iconClass: iconClass
         };
         var selectCellKey = 'treeview-select-cell';
         cells.push(<TreeviewCell data={ selectCellData } key={ selectCellKey } />);
