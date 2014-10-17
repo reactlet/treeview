@@ -153,8 +153,10 @@ var Treeview = React.createClass({
             for (var i = 0; i < item.children.length; i++) {
                 var childItem = item.children[i];
                 this.updateTreeSelectStatus(childItem, changedItem, inheritStatus);
-                if (childItem.selectStatus !== 'n') {
+                if (childItem.selectStatus === 'a') {
                     selectChildrenCount = selectChildrenCount + 1;
+                } else if (childItem.selectStatus === 'p') {
+                    selectChildrenCount = selectChildrenCount + .5;
                 }
             }
         }
