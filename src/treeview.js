@@ -320,7 +320,7 @@ var TreeviewNode = React.createClass({
             iconClass = 'fa fa-check-square-o';
             break;
         case 'p':
-            iconClass = 'fa fa-delicious';
+            iconClass = 'fa fa-square';
             break;
         case 'n':
             iconClass = 'fa fa-square-o';
