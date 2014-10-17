@@ -134,8 +134,7 @@ var Treeview = React.createClass({
      * @param inheritStatus String optional, status to be updated to (inherited from parent)
      */
     updateTreeSelectStatus: function(item, changedItem, inheritStatus) {
-        
-        console.log('pre:', item.uid, item.selectStatus, item.uid === changedItem.uid);
+        // set initial select status to tree item
         var deduceSelectStatus = false;
         if (item.uid === changedItem.uid) {
             // reached item that changes select status originally, no change is needed for item
@@ -148,7 +147,7 @@ var Treeview = React.createClass({
             // need to deduce selectStatus from children's select statuses
             deduceSelectStatus = true;
         }
-        
+        // process child items, keep track of selected child items
         var selectChildrenCount = 0;
         if (item.children && item.children.length > 0) {
             for (var i = 0; i < item.children.length; i++) {
@@ -159,6 +158,7 @@ var Treeview = React.createClass({
                 }
             }
         }
+        // to deduced select status, compare children count to selected children count
         if (deduceSelectStatus) {
             if (item.children) {
                 if (selectChildrenCount === item.children.length) {
@@ -170,7 +170,6 @@ var Treeview = React.createClass({
                 }
             }
         }
-        console.log('post:', item.uid, item.selectStatus, item.uid === changedItem.uid);
     },
     
     onNodeClick: function(event) {
