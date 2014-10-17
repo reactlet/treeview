@@ -128,7 +128,22 @@ var Treeview = React.createClass({
         return nodes;
     },
     
-    onClick: function(event) {
+    // update select status under item
+    // changedItem indicates the tree node that has change of status
+    updateTreeSelectStatus: function(item, changedItem) {
+        
+        console.log('updateTreeSelectStatus', item.uid, changedItem.uid);
+        
+        /*
+        for (var i = 0; i < item.children.length; i++) {
+            var childItem = item.children[i];
+            var childNodes = this.getNodesFromTreeItem(childItem);
+            nodes = nodes.concat(childNodes);
+        }
+        */
+    },
+    
+    onNodeClick: function(event) {
         var target = $(event.target);
         // get cellId from cell icon <i> or from cell container
         var cellId = target.attr('data-uid'); 
@@ -138,8 +153,8 @@ var Treeview = React.createClass({
         if (!cellId) {
             return;
         }
-        // cellId format: "<nodeKey>-<cellType>"
-        // cellId example: "36c2b148338c8d7a7f99ef6b881e281f-expand"
+        // cellId format: "<nodeKey>-<cellType>-<select status>-<expand status>"
+        // cellId example: "36c2b148338c8d7a7f99ef6b881e281f-expand-a-e"
         var parts = cellId.split('-');
         var nodeKey = parts[0];
         var cellType = parts[1];
@@ -165,6 +180,8 @@ var Treeview = React.createClass({
                 }
                 break;
         }
+        // sync select status of all tree nodes
+        this.updateTreeSelectStatus(this.state.treedataObject, treedataItem); 
         this.state.nodes = this.getNodesFromTreeItem(this.state.treedataObject);
         // update display
         this.forceUpdate();
@@ -203,7 +220,7 @@ var Treeview = React.createClass({
         }
         return (
             <div className={ this.state.containerClassNames.join(' ') } >
-                <div onClick={ this.onClick } >
+                <div onClick={ this.onNodeClick } >
                     { treenodes }
                 </div>
             </div>
