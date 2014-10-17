@@ -135,9 +135,8 @@ var Treeview = React.createClass({
      */
     updateTreeSelectStatus: function(item, changedItem, inheritStatus) {
         
-        console.log('updateTreeSelectStatus', item.uid, item.selectStatus, item.uid === changedItem.uid);
-        
-        /*
+        console.log('pre:', item.uid, item.selectStatus, item.uid === changedItem.uid);
+        var deduceSelectStatus = false;
         if (item.uid === changedItem.uid) {
             // reached item that changes select status originally, no change is needed for item
             // set inheritStatus for children to set select status to
@@ -147,16 +146,31 @@ var Treeview = React.createClass({
             item.selectStatus = inheritStatus;
         } else {
             // need to deduce selectStatus from children's select statuses
-            item.selectStatus = '?';
+            deduceSelectStatus = true;
         }
-        */
         
+        var selectChildrenCount = 0;
         if (item.children && item.children.length > 0) {
             for (var i = 0; i < item.children.length; i++) {
                 var childItem = item.children[i];
                 this.updateTreeSelectStatus(childItem, changedItem, inheritStatus);
+                if (childItem.selectStatus !== 'n') {
+                    selectChildrenCount = selectChildrenCount + 1;
+                }
             }
         }
+        if (deduceSelectStatus) {
+            if (item.children) {
+                if (selectChildrenCount === item.children.length) {
+                    item.selectStatus = 'a';
+                } else if (selectChildrenCount === 0) {
+                    item.selectStatus = 'n';
+                } else {
+                    item.selectStatus = 'p';
+                }
+            }
+        }
+        console.log('post:', item.uid, item.selectStatus, item.uid === changedItem.uid);
     },
     
     onNodeClick: function(event) {
