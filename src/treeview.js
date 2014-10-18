@@ -9,7 +9,7 @@ var Treeview = React.createClass({
     getAttributes: function() {
         var attributes = [
             { name:'boxClass', type:'string', required:false, defaultValue:'', note:'container CSS class' },
-            { name:'type', type:'string', required:false, defaultValue:'', note:'treeview type' },
+            { name:'selectType', type:'string', required:false, defaultValue:'n', note:'select type:none/checkbox/radio' },
             { name:'expandLevel', type:'number', required:false, defaultValue:3, note:'levels to expand' },
             { name:'treedata', type:'array', required:false, defaultValue:[], note:'input treeview data' },
             // internal, don't pass in
@@ -279,14 +279,6 @@ var TreeviewNode = React.createClass({
         ];
         return attributes;
     },
-    
-    /*
-    onClick: function(event) {
-        var element = event.currentTarget;
-        var uid = $(element).attr('data-id');
-        console.log('clicked on node - uid:', uid, ' data:', this.state.item);
-    },
-    */
     
     render: function() {
         var items = [];
