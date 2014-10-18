@@ -243,6 +243,7 @@ var Treeview = React.createClass({
         var treenodes = [];
         for (var i = 0; i < this.state.nodes.length; i++) {
             var node = this.state.nodes[i];
+            node.selectType = node.selectType || this.state.selectType;
             // need to include node properties tied with UI change, for example: isExpanded
             var nodeKey = 'treenode-' + node.uid;
             nodeKey += '-' + node.selectStatus;
@@ -274,6 +275,7 @@ var TreeviewNode = React.createClass({
             { name:'display', type:'string', required:false, defaultValue:'', note:'text display' },
             { name:'hasChildren', type:'boolean', required:false, defaultValue:false, note:'has children flag' },
             { name:'isExpanded', type:'boolean', required:false, defaultValue:false, note:'is expanded flag' },
+            { name:'selectType', type:'string', required:false, defaultValue:'n', note:'select type:none/checkbox/radio' },
             { name:'selectStatus', type:'boolean', required:false, defaultValue:'n', note:'selecte state all/partial/none' },
             { name:'item', type:'object', required:false, defaultValue:'', note:'original data item' }
         ];
@@ -293,7 +295,6 @@ var TreeviewNode = React.createClass({
                 <TreeviewCell data={ cellData } key={ cellKey } />
             );
         }
-        
         // add expand cell if there are children
         var expandCellData = {
             uid: this.state.uid + '-expand',
@@ -306,25 +307,28 @@ var TreeviewNode = React.createClass({
         cells.push(<TreeviewCell data={ expandCellData } key='treeview-expand-cell' />);
         
         // add select cell
-        var iconClass = '';
-        switch(this.state.selectStatus) {
-        case 'a':
-            iconClass = 'fa fa-check-square-o';
-            break;
-        case 'p':
-            iconClass = 'fa fa-square';
-            break;
-        case 'n':
-            iconClass = 'fa fa-square-o';
-            break;
+        if (this.state.selectType === 'c') {
+            // checkbox select type
+            var iconClass = '';
+            switch(this.state.selectStatus) {
+            case 'a':
+                iconClass = 'fa fa-check-square-o';
+                break;
+            case 'p':
+                iconClass = 'fa fa-square';
+                break;
+            case 'n':
+                iconClass = 'fa fa-square-o';
+                break;
+            }
+            var selectCellData = {
+                uid: this.state.uid + '-select',
+                type: 'select',
+                iconClass: iconClass
+            };
+            var selectCellKey = 'treeview-select-cell';
+            cells.push(<TreeviewCell data={ selectCellData } key={ selectCellKey } />);
         }
-        var selectCellData = {
-            uid: this.state.uid + '-select',
-            type: 'select',
-            iconClass: iconClass
-        };
-        var selectCellKey = 'treeview-select-cell';
-        cells.push(<TreeviewCell data={ selectCellData } key={ selectCellKey } />);
         
         // only add icon cell when iconClass is present
         if (this.state.item.iconClass) {
