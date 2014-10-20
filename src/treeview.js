@@ -162,7 +162,7 @@ var Treeview = React.createClass({
         }
         // to deduced select status, compare children count to selected children count
         if (deduceSelectStatus) {
-            if (item.children) {
+            if (item.children && item.children.length > 0) {
                 if (selectChildrenCount === item.children.length) {
                     item.selectStatus = 'a';
                 } else if (selectChildrenCount === 0) {
@@ -170,6 +170,8 @@ var Treeview = React.createClass({
                 } else {
                     item.selectStatus = 'p';
                 }
+            } else {
+                item.selectStatus = 'n';
             }
         }
     },
@@ -212,10 +214,28 @@ var Treeview = React.createClass({
                 break;
         }
         // sync select status of all tree nodes
-        this.updateTreeSelectStatus(this.state.treedataObject, treedataItem); 
+        this.updateTreeSelectStatus(this.state.treedataObject, treedataItem);
+        this.dumpTree(this.state.treedataObject);
         this.state.nodes = this.getNodesFromTreeItem(this.state.treedataObject);
         // update display
         this.forceUpdate();
+    },
+    
+    dumpTree: function(item) {
+        if (item.level > 0) {
+            var output = '';
+            for (var i = 0; i < item.level; i++) {
+                output = output + '  ';
+            }
+            output = output + item.name + '-' + item.selectStatus;
+            console.log(output);
+        }
+        if (item.children && item.children.length > 0) {
+            for (var i = 0; i < item.children.length; i++) {
+                var childItem = item.children[i];
+                this.dumpTree(childItem);
+            }
+        }
     },
     
     // set data for display
