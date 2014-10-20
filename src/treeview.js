@@ -145,7 +145,11 @@ var Treeview = React.createClass({
             item.selectStatus = inheritStatus;
         } else {
             // need to deduce selectStatus from children's select statuses
-            deduceSelectStatus = true;
+            if (item.children && item.children.length > 0) {
+                deduceSelectStatus = true;
+            } else {
+                // item remains current select status
+            }
         }
         // process child items, keep track of selected child items
         var selectChildrenCount = 0;
@@ -215,7 +219,7 @@ var Treeview = React.createClass({
         }
         // sync select status of all tree nodes
         this.updateTreeSelectStatus(this.state.treedataObject, treedataItem);
-        this.dumpTree(this.state.treedataObject);
+        //this.dumpTree(this.state.treedataObject);
         this.state.nodes = this.getNodesFromTreeItem(this.state.treedataObject);
         // update display
         this.forceUpdate();
