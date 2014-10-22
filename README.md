@@ -6,6 +6,15 @@ Reactlet treeview component
 ![Treeview file system example](document/image/treeview-filesystem.png)
 
 ```
+
+<link rel="stylesheet" href="/component/common/common-style.css"/>
+<link rel="stylesheet" href="/component/treeview/treeview.css"/>
+
+<script src="/library/react/react.js"></script>
+<script src="/library/react/JSXTransformer.js"></script>
+<script type="text/jsx" src="/component/common/common-mixin.js"></script>
+<script type="text/jsx" src="/component/treeview/treeview.js"></script>
+
 app.tree4Data = {
     treedata: [
         {
