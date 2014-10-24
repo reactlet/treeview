@@ -1,5 +1,5 @@
-treeview
-========
+Reactlet Treeview
+=================
 
 Reactlet treeview component
 
