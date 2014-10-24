@@ -6,7 +6,6 @@ Reactlet treeview component
 ![Treeview file system example](res/treeview-filesystem.png)
 
 ```
-
 <link rel="stylesheet" href="/component/common/common-style.css"/>
 <link rel="stylesheet" href="/component/treeview/treeview.css"/>
 
