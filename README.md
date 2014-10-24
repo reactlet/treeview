@@ -3,7 +3,7 @@ treeview
 
 Reactlet treeview component
 
-![Treeview file system example](document/image/treeview-filesystem.png)
+![Treeview file system example](res/treeview-filesystem.png)
 
 ```
 
