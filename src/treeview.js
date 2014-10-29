@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 // Treeview component
 var Treeview = React.createClass({
     name: 'treeview',
