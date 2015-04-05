@@ -1,0 +1,10 @@
+/* css class to clear space for float elements */
+.div-clear-both {
+    clear: both;
+}
+
+/* spacer icon for sort */
+.sort-spacer-icon {
+    width: 8px;
+}
+

@@ -5,15 +5,15 @@ Reactlet treeview component
 
 
 ```
-<link rel="stylesheet" href="/component/common/common-style.css"/>
+<link rel="stylesheet" href="/component/res/reactlet-common.css"/>
 <link rel="stylesheet" href="/component/treeview/treeview.css"/>
 
 <script src="/library/react/react.js"></script>
 <script src="/library/react/JSXTransformer.js"></script>
-<script type="text/jsx" src="/component/common/common-mixin.js"></script>
+<script type="text/jsx" src="/component/res/reactlet-mixin.js"></script>
 <script type="text/jsx" src="/component/treeview/treeview.js"></script>
 
-app.tree4Data = {
+app.tree1Data = {
     treedata: [
         {
             "name": "website",
@@ -49,8 +49,8 @@ app.tree4Data = {
         }
     ]
 };
-app.treeview4 = React.renderComponent(
-    <Treeview data={ app.tree4Data } />,
-    document.getElementById('treeview4')
+app.treeview1 = React.renderComponent(
+    <Treeview data={ app.tree1Data } />,
+    document.getElementById('treeview1')
 );
 ```
